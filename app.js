@@ -4,6 +4,8 @@ const bodyParser = require('body-parser')
 //const mongoose = require('mongoose')
 const app = express()
 const admin = require("./routes/admin")
+const path = require('path')
+
 
 // Settings
     //bodyParser
@@ -11,15 +13,17 @@ const admin = require("./routes/admin")
         app.use(bodyParser.json())
     //Handlebars 
         app.engine('handlebars', handlebars.engine({defaultLayout: 'main',  runtimeOptions: {
-            allowProtoPropertiesByDefault: true,
-            allowProtoMethodsByDefault: true,
-        }
+                allowProtoPropertiesByDefault: true,
+                allowProtoMethodsByDefault: true,
+            },
+   
+        })) 
+        app.set('view engine', 'handlebars')
     //Mongoose
-
-
-})) 
-    app.set('view engine', 'handlebars')
-
+        //Soon in comming
+    //Public
+    app.use(express.static(path.join(__dirname, "public")))
+   
 // Routes
     app.use('/admin', admin)
 // Others 
