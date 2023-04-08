@@ -30,5 +30,5 @@ const path = require('path')
 
 const PORT = 8081
 app.listen(PORT, () => {
-    console.log("Server is up!")
+    console.log("Server is connected!")
 })
