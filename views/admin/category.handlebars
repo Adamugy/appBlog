@@ -1,3 +1,17 @@
 <h1>List of category: </h1>
 <hr>
 <a href="/admin/category/add"><button class="btn btn-success">New category</button></a>
+
+{{#each category}}
+    <div class="card mt-4">
+        <div class="card-body">
+            <h4>{{name}}</h4>
+            <small>{{slug}}</small><br>
+            <small>Date of creat: {{date}}</small><br>
+            <a href="/admin/category/edit/{{_id}}"><button class="btn btn-success mt-4">Edit category</button></a>
+        </div>
+    </div>
+
+{{else}}
+
+{{/each}}
