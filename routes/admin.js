@@ -12,7 +12,13 @@ router.get('/posts', (req, res)=>{
 })
 
 router.get('/category', (req, res)=>{
-    res.render("admin/category")
+    Category.find().sort({date: 'desc'}).then((category)=> {
+        res.render("admin/category", {category: category})
+    }).catch((error) => {
+        req.flash("error_msg", "try again")
+        res.redirect("/admin")
+    })
+    
 })
 
 router.get('/category/add', (req, res) => {
@@ -51,8 +57,39 @@ router.post('/category/new', (req, res) => {
             res.redirect("/admin")
         })
     }
- 
 })
+
+router.get('/category/edit/:id', (req, res) => {
+    Category.findOne({_id:req.params.id}).then((category) => {
+        res.render("admin/editcategory", {category: category})
+    }).catch((error) => {
+        req.flash("error_msg", "It is not exist")
+        res.redirect("/admin/category")
+    })
+   
+})
+
+router.post('category/edit', (req, res) => {
+    Category.findOne({_id:req.body.id}).then((category) => {
+
+        category.name = req.body.name
+        category.slug = req.body.slug
+
+        category.save().then((category) => {
+            req.flash("success_msg", "success edit category")
+            res.redirect("/admin/category")
+        }).catch((error) => {
+            req.flash("error_msg", "Erro")
+            res.redirect("/admin/category")
+        })
+        
+        
+    }).catch((error) => {
+        req.flash("error_msg", "Erro in the edit category")
+        res.redirect("/admin/category")
+    })
+})
+
 
 module.exports = router
 
